@@ -10,7 +10,7 @@ from sqlalchemy import Sequence
 
 
 Base = declarative_base()
-engine = create_engine("postgres://postgres:passwd@localhost/db_test")
+engine = create_engine("postgres://postgres:111111@localhost/db_test")
 
 class Answers(Base):
     __tablename__ = 'answers'
