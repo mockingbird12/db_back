@@ -10,10 +10,11 @@ from sqlalchemy import Sequence
 
 
 Base = declarative_base()
-engine = create_engine("postgres://postgres:111111@localhost/db_test")
+engine = create_engine("postgresql://memo_back:111111@localhost/memo_db")
 
 class Answers(Base):
     __tablename__ = 'answers'
+    id = Column(Integer, Sequence('answers_seq'), primary_key=True)
     time = Column(DateTime)
     user_id = Column(Integer)
     module_id = Column(Integer)
@@ -55,12 +56,24 @@ class Modules(Base):
     user_id = Column(Integer)
 
 class Words(Base):
-    _tablename__ = 'words'
+    __tablename__ = 'words'
     id = Column(Integer, Sequence('words_seq'), primary_key=True)
     lesson_id = Column(Integer)
     word = Column(String)
     translate = Column(String)
     comment = Column(String)
 
+    def __init__(self, lesson_id, word, translate, comment):
+        self.lesson_id = lesson_id
+        self.word = word
+        self.translate = translate
+        self.comment = comment
+
+Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
+
+if __name__ == '__main__':
+    word = Words(2, 'hello', 'translate', 'comm1')
+    session.add(word)
+    session.commit()
