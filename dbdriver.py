@@ -23,6 +23,15 @@ class Answers(Base):
     answer = Column(String)
     author_id = Column(Integer)
 
+    def __init__(self, time, user_id, module_id, lesson_id, word_id, answer, author_id):
+        self.time = time
+        self.user_id = user_id
+        self.module_id = module_id
+        self.lesson_id = lesson_id
+        self.word_id = word_id
+        self.answer = answer
+        self.author_id = author_id
+
 class Users(Base):
     __tablename__ = 'users'
     id = Column(Integer, Sequence('users_seq'), primary_key=True)
@@ -35,6 +44,16 @@ class Users(Base):
     my_students = Column(String)
     email = Column(String)
 
+    def __init__(self, login, password,token,name,status, my_authors, my_students, email):
+        self.login = login
+        self.password = password
+        self.token = token
+        self.name = name
+        self.status = status
+        self.my_authors = my_authors
+        self.my_students = my_students
+        self.email = email
+
 class Lessons(Base):
     __tablename__ = 'lessons'
     id = Column(Integer, Sequence('lessons_seq'), primary_key=True)
@@ -43,6 +62,13 @@ class Lessons(Base):
     comment = Column(String)
     words = Column(String)
     visible = Column(Boolean)
+
+    def __init__(self, module_id, name, comment, words, visible):
+        self.module_id = module_id
+        self.name = name
+        self.comment = comment
+        self.words = words
+        self.visible = visible
 
 class Modules(Base):
     __tablename__ = 'modules'
@@ -54,6 +80,16 @@ class Modules(Base):
     visible = Column(Boolean)
     lessons = None
     user_id = Column(Integer)
+    student_ids = None
+
+    def __init__(self, lang_from, lang_to, name, comment, visible, lessons, user_id):
+        self.lang_from = lang_from
+        self.lang_to = lang_to
+        self.name = name
+        self.comment = comment
+        self.visible = visible
+        self.lessons = lessons
+        self.user_id = user_id
 
 class Words(Base):
     __tablename__ = 'words'
@@ -72,6 +108,7 @@ class Words(Base):
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
+
 
 if __name__ == '__main__':
     word = Words(2, 'hello', 'translate', 'comm1')
