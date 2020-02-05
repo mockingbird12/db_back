@@ -82,7 +82,7 @@ class Modules(Base):
     user_id = Column(Integer)
     student_ids = None
 
-    def __init__(self, lang_from, lang_to, name, comment, visible, lessons, user_id):
+    def __init__(self, lang_from, lang_to, name, comment, visible, lessons, user_id, students_ids):
         self.lang_from = lang_from
         self.lang_to = lang_to
         self.name = name
@@ -90,6 +90,7 @@ class Modules(Base):
         self.visible = visible
         self.lessons = lessons
         self.user_id = user_id
+        self.student_ids = students_ids
 
 class Words(Base):
     __tablename__ = 'words'
