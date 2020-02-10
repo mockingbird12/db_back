@@ -38,9 +38,9 @@ class Answers(Base):
 class Users(Base):
     __tablename__ = 'users'
     id = Column(Integer, Sequence('users_seq'), primary_key=True)
-    login = Column(String)
+    login = Column(String, unique=True)
     password = Column(String)
-    token = Column(String)
+    token = Column(String, unique=True)
     name = Column(String)
     status = Column(String)
     my_authors = Column(String)
