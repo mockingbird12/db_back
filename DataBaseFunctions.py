@@ -13,15 +13,12 @@ def AddUser(login, password,token,name,status, my_authors, my_students, email):
 
 
 def GetAllUsers():
-    result = []
-    for user in session.querry(Users).all():
-        result.append([user.id, user.login, user.password ])
-    return result
+    return session.querry(Users).all()
 
 
 def GetUserInfoBy(id):
     user = session.querry(Users).filter(Users.id == id)
-    return user.name
+    return user
 
 
 def GetUserNameBy(user_id):
@@ -139,3 +136,7 @@ if __name__ == '__main__':
     print('Run db functions')
     AddUser(login='login1', password='passwd',token='token1', name='user1', status='status1',
             my_authors=None, my_students=None, email='user1@mail.ru')
+    print('GetAllUsers')
+    print(GetAllUsers())
+    print('Get user by id')
+    print(GetUserInfoBy(1))
