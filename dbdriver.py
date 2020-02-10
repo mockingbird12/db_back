@@ -9,8 +9,11 @@ from sqlalchemy import DateTime
 from sqlalchemy import Sequence
 
 
+user = 'memo_back'
+passwd = '111111'
+host = 'localhost'
 Base = declarative_base()
-engine = create_engine("postgresql://memo_back:111111@localhost/memo_db")
+engine = create_engine("postgresql://{0}:{1}@{2}/memo_db".format(user,passwd,host))
 
 class Answers(Base):
     __tablename__ = 'answers'
