@@ -137,3 +137,5 @@ def GetLessonAnswers(user_id,lesson_id):
 
 if __name__ == '__main__':
     print('Run db functions')
+    AddUser(login='login1', password='passwd',token='token1', name='user1', status='status1',
+            my_authors=None, my_students=None, email='user1@mail.ru')
