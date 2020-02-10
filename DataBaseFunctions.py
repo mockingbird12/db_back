@@ -13,21 +13,21 @@ def AddUser(login, password,token,name,status, my_authors, my_students, email):
 
 
 def GetAllUsers():
-    return session.querry(Users).all()
+    return session.query(Users).all()
 
 
 def GetUserInfoBy(id):
-    user = session.querry(Users).filter(Users.id == id)
+    user = session.query(Users).filter(Users.id == id)
     return user
 
 
 def GetUserNameBy(user_id):
-    user = session.querry(Users).filter(Users.id == user_id)
+    user = session.query(Users).filter(Users.id == user_id)
     return user.name
 
 
 def GetAuthorModulesByLang(lang_from, lang_to, user_id):
-    res = session.querry(Modules).filter(Modules.lang_from == lang_from).filter(Modules.lang_to == lang_to).filter(Modules.user_id)
+    res = session.query(Modules).filter(Modules.lang_from == lang_from).filter(Modules.lang_to == lang_to).filter(Modules.user_id)
     return res.id
 
 
@@ -38,13 +38,13 @@ def AddModule(lang_from, lang_to, name, comment, visible,  user_id):
 
 
 def DeleteModule(module_id, user_id):
-    module = session.querry(Modules).filter(Modules.id == module_id).one()
+    module = session.query(Modules).filter(Modules.id == module_id).one()
     session.delete(module)
     session.commit()
 
 
 def ChangeModuleName(module_id, new_name):
-    modulle = session.querry(Modules).filter(Modules.id == module_id).one()
+    modulle = session.query(Modules).filter(Modules.id == module_id).one()
     modulle.name = new_name
     session.add(modulle)
     session.commit()
@@ -56,7 +56,7 @@ def AddModuleForStudents(lang_from, lang_to, name, comment, visible,  user_id,st
 
 
 def GetModuleLessons(module_id):
-    lessons = session.querry(Modules).filter(Modules.id == module_id).all()
+    lessons = session.query(Modules).filter(Modules.id == module_id).all()
     res = []
     for lesson in lessons:
         res.append(lesson.id)
@@ -70,20 +70,20 @@ def AddLesson(module_id, name, comment,  visible):
 
 
 def DeleteLesson(lesson_id):
-    lesson = session.querry(Lessons).filter(Lessons.id == lesson_id)
+    lesson = session.query(Lessons).filter(Lessons.id == lesson_id)
     session.delete(lesson)
     session.commit()
 
 
 def ChangeLessonName(lesson_id,new_name):
-    lesson = session.querry(Lessons).filter(Lessons.id == lesson_id)
+    lesson = session.query(Lessons).filter(Lessons.id == lesson_id)
     lesson.name = new_name
     session.add(lesson)
     session.commit()
 
 
 def GetLessonWords(lesson_id):
-    words = session.querry(Words).filter(Words.lesson_id == lesson_id).all()
+    words = session.query(Words).filter(Words.lesson_id == lesson_id).all()
     res = []
     for word in words:
         res.append(word.word)
@@ -97,13 +97,13 @@ def AddWord(lesson_id, word, translate, comment):
 
 
 def DeleteWord(word_id):
-    word = session.querry(Words).filter(Words.id == word_id).one()
+    word = session.query(Words).filter(Words.id == word_id).one()
     session.delete(word)
     session.commit()
 
 
 def ChangeWord(word_id,word,translate):
-    word_instance = session.querry(Words).filter(Words.id == word_id).one()
+    word_instance = session.query(Words).filter(Words.id == word_id).one()
     word_instance.word = word
     word.translate = translate
     session.add(word)
@@ -117,7 +117,7 @@ def AddNewAnswer(answer_time, user_id, module_id, lesson_id, word_id, answer,aut
 
 
 def GetAllUserAnswers(user_id):
-    answers = session.querry(Answers).filter(Answers.user_id == user_id).all()
+    answers = session.query(Answers).filter(Answers.user_id == user_id).all()
     res = []
     for ans in answers:
         res.append(ans.answer)
@@ -125,7 +125,7 @@ def GetAllUserAnswers(user_id):
 
 
 def GetLessonAnswers(user_id,lesson_id):
-    answers = session.querry(Answers).filter(Answers.user_id == user_id).filter(Answers.lesson_id == lesson_id).all()
+    answers = session.query(Answers).filter(Answers.user_id == user_id).filter(Answers.lesson_id == lesson_id).all()
     res = []
     for ans in answers:
         res.append(ans.answer)
