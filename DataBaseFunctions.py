@@ -26,7 +26,7 @@ def GetUserInfoBy(id):
 
 
 def GetUserNameBy(user_id):
-    user = session.query(Users).filter(Users.id == user_id)
+    user = session.query(Users).filter(Users.id == user_id).one()
     return user.name
 
 
@@ -171,7 +171,6 @@ if __name__ == '__main__':
     # print('Get user by id')
     # print(GetUserInfoBy(1))
     # print('GetUserNameBy')
-    # id = 1
     # print(GetUserNameBy(1))
     # print('GetAuthorModulesByLang')
     # print(GetAuthorModulesByLang())
