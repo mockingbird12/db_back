@@ -21,7 +21,7 @@ def GetAllUsers():
 
 
 def GetUserInfoBy(id):
-    user = session.query(Users).filter(Users.id == id)
+    user = session.query(Users).filter(Users.id == id).one()
     return user
 
 
