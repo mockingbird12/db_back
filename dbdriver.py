@@ -3,9 +3,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from sqlalchemy import Column
 from sqlalchemy import Integer
-from sqlalchemy import String
 from sqlalchemy import Boolean
-from sqlalchemy import DateTime
+from sqlalchemy import Text
 from sqlalchemy import Sequence
 
 
@@ -18,12 +17,12 @@ engine = create_engine("postgresql://{0}:{1}@{2}/memo_db".format(user,passwd,hos
 class Answers(Base):
     __tablename__ = 'answers'
     id = Column(Integer, Sequence('answers_seq'), primary_key=True)
-    time = Column(DateTime)
+    time = Column(Text)
     user_id = Column(Integer)
     module_id = Column(Integer)
     lesson_id = Column(Integer)
     word_id = Column(Integer)
-    answer = Column(String)
+    answer = Column(Text)
     author_id = Column(Integer)
 
     def __init__(self, time, user_id, module_id, lesson_id, word_id, answer, author_id):
@@ -38,14 +37,14 @@ class Answers(Base):
 class Users(Base):
     __tablename__ = 'users'
     id = Column(Integer, Sequence('users_seq'), primary_key=True)
-    login = Column(String, unique=True)
-    password = Column(String)
-    token = Column(String, unique=True)
-    name = Column(String)
-    status = Column(String)
-    my_authors = Column(String)
-    my_students = Column(String)
-    email = Column(String)
+    login = Column(Text, unique=True)
+    password = Column(Text)
+    token = Column(Text, unique=True)
+    name = Column(Text)
+    status = Column(Text)
+    my_authors = Column(Text)
+    my_students = Column(Text)
+    email = Column(Text)
 
     def __init__(self, login, password,token,name,status, my_authors, my_students, email):
         self.login = login
@@ -61,9 +60,9 @@ class Lessons(Base):
     __tablename__ = 'lessons'
     id = Column(Integer, Sequence('lessons_seq'), primary_key=True)
     module_id = Column(Integer)
-    name = Column(String)
-    comment = Column(String)
-    words = Column(String)
+    name = Column(Text)
+    comment = Column(Text)
+    words = Column(Text)
     visible = Column(Boolean)
 
     def __init__(self, module_id, name, comment, words, visible):
@@ -76,10 +75,10 @@ class Lessons(Base):
 class Modules(Base):
     __tablename__ = 'modules'
     id = Column(Integer, Sequence('modules_seq'), primary_key=True)
-    lang_from = Column(String)
-    lang_to = Column(String)
-    name = Column(String)
-    comment = Column(String)
+    lang_from = Column(Text)
+    lang_to = Column(Text)
+    name = Column(Text)
+    comment = Column(Text)
     visible = Column(Boolean)
     lessons = None
     user_id = Column(Integer)
@@ -99,9 +98,9 @@ class Words(Base):
     __tablename__ = 'words'
     id = Column(Integer, Sequence('words_seq'), primary_key=True)
     lesson_id = Column(Integer)
-    word = Column(String)
-    translate = Column(String)
-    comment = Column(String)
+    word = Column(Text)
+    translate = Column(Text)
+    comment = Column(Text)
 
     def __init__(self, lesson_id, word, translate, comment):
         self.lesson_id = lesson_id

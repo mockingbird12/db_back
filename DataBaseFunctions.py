@@ -6,8 +6,12 @@ from dbdriver import Words
 from dbdriver import Answers
 
 
-def AddUser(login, password,token,name,status, my_authors, my_students, email):
-    user = Users(login, password, token, name, status, my_authors, my_students, email)
+def AddUser(login,password,name,status):
+    token = None
+    my_authors = None
+    my_students = None
+    email = None
+    user = Users(login, password, token , name, status, my_authors, my_students, email)
     session.add(user)
     session.commit()
 
@@ -27,7 +31,7 @@ def GetUserNameBy(user_id):
 
 
 def GetAuthorModulesByLang(lang_from, lang_to, user_id):
-    res = session.query(Modules).filter(Modules.lang_from == lang_from).filter(Modules.lang_to == lang_to).filter(Modules.user_id)
+    res = session.query(Modules).filter(Modules.lang_from == lang_from).filter(Modules.lang_to == lang_to).filter(Modules.user_id == user_id)
     return res.id
 
 
@@ -38,7 +42,8 @@ def AddModule(lang_from, lang_to, name, comment, visible,  user_id):
 
 
 def DeleteModule(module_id, user_id):
-    module = session.query(Modules).filter(Modules.id == module_id).one()
+    # Зачем нам здесь user_id???
+    module = session.query(Modules).filter(Modules.id == module_id).filter(Users.id == user_id).one()
     session.delete(module)
     session.commit()
 
@@ -50,9 +55,16 @@ def ChangeModuleName(module_id, new_name):
     session.commit()
 
 
-def AddModuleForStudents(lang_from, lang_to, name, comment, visible,  user_id,student_ids):
-    module = Modules(lang_from, lang_to, name, comment, visible,  user_id,student_ids)
+def AddModuleForStudents(lang_from, lang_to, name, comment, visible,  user_id, student_ids):
+    # это я не понимаю зачем и как
+    module = Modules(lang_from, lang_to, name, comment, visible,  user_id, student_ids)
     pass
+
+def UpdateModuleComment(module_id,comment):
+    module = session.query(Modules).filter(Modules.id == module_id).one()
+    module.comment = comment
+    session.add(module)
+    session.commit()
 
 
 def GetModuleLessons(module_id):
@@ -81,6 +93,13 @@ def ChangeLessonName(lesson_id,new_name):
     session.add(lesson)
     session.commit()
 
+def UpdateLessonComment(lesson_id,comment):
+    # Мне кажется лучше не плодить функции с одинаковым функционалом а объединить их под одной функцией
+    lesson = session.query(Lessons).filter(Lessons.id == lesson_id)
+    lesson.comment = comment
+    session.add(lesson)
+    session.commit()
+
 
 def GetLessonWords(lesson_id):
     words = session.query(Words).filter(Words.lesson_id == lesson_id).all()
@@ -105,15 +124,23 @@ def DeleteWord(word_id):
 def ChangeWord(word_id,word,translate):
     word_instance = session.query(Words).filter(Words.id == word_id).one()
     word_instance.word = word
-    word.translate = translate
-    session.add(word)
+    word_instance.translate = translate
+    session.add(word_instance)
+    session.commit()
+
+def UpdateWordComment(word_id,comment):
+    word_instance = session.query(Words).filter(Words.id == word_id).one()
+    word_instance.comment = comment
+    session.add(word_instance)
     session.commit()
 
 
 def AddNewAnswer(answer_time, user_id, module_id, lesson_id, word_id, answer,author_id):
-    answer = Answers(answer_time, user_id, module_id, lesson_id, word_id, answer,author_id)
-    session.add(answer)
+    answer_inst = Answers(answer_time, user_id, module_id, lesson_id, word_id, answer,author_id)
+    id = answer_inst.id
+    session.add(answer_inst)
     session.commit()
+    return id
 
 
 def GetAllUserAnswers(user_id):
@@ -131,12 +158,60 @@ def GetLessonAnswers(user_id,lesson_id):
         res.append(ans.answer)
     return res
 
+def GetAllSearchAuthors():
+    author_inst = session.query(Users).filter(Users.status == 'author').all()
+    return author_inst
 
 if __name__ == '__main__':
     print('Run db functions')
-    AddUser(login='login1', password='passwd',token='token1', name='user1', status='status1',
-            my_authors=None, my_students=None, email='user1@mail.ru')
-    print('GetAllUsers')
-    print(GetAllUsers())
-    print('Get user by id')
-    print(GetUserInfoBy(1))
+    print('AddUser:')
+    AddUser('login1', 'passwd1', 'user1', 'status1')
+    # print('GetAllUsers')
+    # print(GetAllUsers())
+    # print('Get user by id')
+    # print(GetUserInfoBy(1))
+    # print('GetUserNameBy')
+    # id = 1
+    # print(GetUserNameBy(1))
+    # print('GetAuthorModulesByLang')
+    # print(GetAuthorModulesByLang())
+    # print('AddModule')
+    # AddModule('eng','france','module1','comment',True,1)
+    # print('AddModuleForStudents')
+    # AddModuleForStudents('eng','france','module1','comment',True,1)
+    # print('DeleteModule')
+    # DeleteModule(2, 1)
+    # print('ChangeModuleName')
+    # ChangeModuleName(3, 'new_name_1')
+    # print('UpdateModuleComment')
+    # UpdateModuleComment(3, 'new_comment')
+    # print('GetModuleLessons')
+    # print(GetModuleLessons(3))
+    # print('AddLesson')
+    # AddLesson(3, 'lesson3', 'comment3', True)
+    # print('DeleteLesson')
+    # DeleteLesson(4)
+    # print('ChangeLessonName')
+    # ChangeLessonName(4, 'new_name_4')
+    # print('UpdateLessonComment')
+    # UpdateLessonComment(4, 'new_comment')
+    # print('GetLessonWords')
+    # print(GetLessonWords(4))
+    # print('AddWord')
+    # AddWord(4, 'new_word_jdi', 'perevod', 'comment')
+    # print('DeleteWord')
+    # DeleteWord(2)
+    # print('ChangeWord')
+    # ChangeWord(2, 'change_word', 'change_perevod')
+    # print('UpdateWordComment')
+    # UpdateWordComment(2, 'new_comment')
+    # print('AddNewAnswer')
+    # print(AddNewAnswer('Sep 2', 1, 2, 2, 2, 'ans1', 2))
+    # print('GetAllUserAnswers')
+    # print(GetAllUserAnswers(3))
+    # print('GetLessonAnswers')
+    # print(GetLessonAnswers(3, 2))
+    # print('GetAllSearchAuthors')
+    # print(GetAllSearchAuthors())
+
+
