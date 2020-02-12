@@ -8,11 +8,12 @@ from sqlalchemy import Text
 from sqlalchemy import Sequence
 
 
-user = 'memo_back'
+user = 'new_memo'
 passwd = '111111'
 host = 'localhost'
+dbname = 'new_memo'
 Base = declarative_base()
-engine = create_engine("postgresql://{0}:{1}@{2}/memo_db".format(user,passwd,host))
+engine = create_engine("postgresql://{0}:{1}@{2}/{3}".format(user,passwd,host, dbname))
 
 class Answers(Base):
     __tablename__ = 'answers'
