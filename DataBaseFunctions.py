@@ -89,14 +89,14 @@ def DeleteLesson(lesson_id):
 
 
 def ChangeLessonName(lesson_id,new_name):
-    lesson = session.query(Lessons).filter(Lessons.id == lesson_id)
+    lesson = session.query(Lessons).filter(Lessons.id == lesson_id).one()
     lesson.name = new_name
     session.add(lesson)
     session.commit()
 
 def UpdateLessonComment(lesson_id,comment):
     # Мне кажется лучше не плодить функции с одинаковым функционалом а объединить их под одной функцией
-    lesson = session.query(Lessons).filter(Lessons.id == lesson_id)
+    lesson = session.query(Lessons).filter(Lessons.id == lesson_id).one()
     lesson.comment = comment
     session.add(lesson)
     session.commit()
