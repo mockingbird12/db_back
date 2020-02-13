@@ -58,7 +58,8 @@ def ChangeModuleName(module_id, new_name):
 def AddModuleForStudents(lang_from, lang_to, name, comment, visible, lessons, user_id, students_ids):
     # это я не понимаю зачем и как
     module = Modules(lang_from, lang_to, name, comment, visible, lessons, user_id, students_ids)
-    pass
+    session.add(module)
+    session.commit()
 
 def UpdateModuleComment(module_id,comment):
     module = session.query(Modules).filter(Modules.id == module_id).one()
