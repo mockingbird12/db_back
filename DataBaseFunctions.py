@@ -83,7 +83,7 @@ def AddLesson(module_id, name, comment, words, visible):
 
 
 def DeleteLesson(lesson_id):
-    lesson = session.query(Lessons).filter(Lessons.id == lesson_id)
+    lesson = session.query(Lessons).filter(Lessons.id == lesson_id).one()
     session.delete(lesson)
     session.commit()
 
@@ -187,10 +187,10 @@ if __name__ == '__main__':
     # UpdateModuleComment(3, 'new_comment')
     # print('GetModuleLessons')
     # print(GetModuleLessons(3))
-    print('AddLesson')
-    AddLesson(3, 'lesson3', 'comment3', True, 'lesson words')
-    # print('DeleteLesson')
-    # DeleteLesson(4)
+    # print('AddLesson')
+    # AddLesson(3, 'lesson3', 'comment3', 'lesson words', True)
+    print('DeleteLesson')
+    DeleteLesson(4)
     # print('ChangeLessonName')
     # ChangeLessonName(4, 'new_name_4')
     # print('UpdateLessonComment')
