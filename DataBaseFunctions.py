@@ -35,8 +35,8 @@ def GetAuthorModulesByLang(lang_from, lang_to, user_id):
     return res.id
 
 
-def AddModule(lang_from, lang_to, name, comment, visible,  user_id):
-    module = Modules(lang_from, lang_to, name, comment, visible, user_id, None)
+def AddModule(lang_from, lang_to, name, comment, visible, lessons, user_id, students_ids):
+    module = Modules(lang_from, lang_to, name, comment, visible, lessons, user_id, students_ids)
     session.add(module)
     session.commit()
 
