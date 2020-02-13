@@ -76,8 +76,8 @@ def GetModuleLessons(module_id):
     return res
 
 
-def AddLesson(module_id, name, comment,  visible):
-    lesson = Lessons(module_id, name, comment, visible)
+def AddLesson(module_id, name, comment, words, visible):
+    lesson = Lessons(module_id, name, comment, words, visible)
     session.add(lesson)
     session.commit()
 
@@ -178,7 +178,7 @@ if __name__ == '__main__':
     # print('AddModule')
     # AddModule('eng','france','module1','comment',True,1)
     # print('AddModuleForStudents')
-    AddModuleForStudents('eng','france','module1','comment',True,1, 2, 1)
+    # AddModuleForStudents('eng','france','module1','comment',True,1, 2, 1)
     # print('DeleteModule')
     # DeleteModule(2, 1)
     # print('ChangeModuleName')
@@ -187,8 +187,8 @@ if __name__ == '__main__':
     # UpdateModuleComment(3, 'new_comment')
     # print('GetModuleLessons')
     # print(GetModuleLessons(3))
-    # print('AddLesson')
-    # AddLesson(3, 'lesson3', 'comment3', True)
+    print('AddLesson')
+    AddLesson(3, 'lesson3', 'comment3', True, 'lesson words')
     # print('DeleteLesson')
     # DeleteLesson(4)
     # print('ChangeLessonName')
