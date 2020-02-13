@@ -55,9 +55,9 @@ def ChangeModuleName(module_id, new_name):
     session.commit()
 
 
-def AddModuleForStudents(lang_from, lang_to, name, comment, visible,  user_id, student_ids):
+def AddModuleForStudents(lang_from, lang_to, name, comment, visible, lessons, user_id, students_ids):
     # это я не понимаю зачем и как
-    module = Modules(lang_from, lang_to, name, comment, visible,  user_id, student_ids)
+    module = Modules(lang_from, lang_to, name, comment, visible, lessons, user_id, students_ids)
     pass
 
 def UpdateModuleComment(module_id,comment):
@@ -177,7 +177,7 @@ if __name__ == '__main__':
     # print('AddModule')
     # AddModule('eng','france','module1','comment',True,1)
     # print('AddModuleForStudents')
-    # AddModuleForStudents('eng','france','module1','comment',True,1)
+    AddModuleForStudents('eng','france','module1','comment',True,1, 2, 1)
     # print('DeleteModule')
     # DeleteModule(2, 1)
     # print('ChangeModuleName')
